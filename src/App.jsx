@@ -56,6 +56,15 @@ export default function NAusbringungsRechner() {
 
   const fmt = (v) => Number(v).toFixed(decimals);
 
+  const askForPin = () => {
+    const pin = prompt("GPS-Tracking ist eine Premium-Funktion. Bitte PIN eingeben:");
+    if (pin === "1234") {
+      setGpsActive(true);
+    } else {
+      alert("Falscher PIN!");
+    }
+  };
+
   const containerStyle = { color: dark ? '#e6eef8' : '#0f172a', fontFamily: 'Helvetica, Arial, sans-serif' };
   const cardStyle = {
     background: dark ? '#0b1220' : '#ffffff',
@@ -87,7 +96,7 @@ export default function NAusbringungsRechner() {
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
             <label>Vorschub (km/h)
               <input type="number" value={speed} onChange={(e)=>setSpeed(parseFloat(e.target.value)||0)} disabled={gpsActive} />
-              <button onClick={()=>setGpsActive(a=>!a)} style={{ marginTop: 4 }}>{gpsActive ? "GPS Stop" : "📡 GPS"}</button>
+              <button onClick={gpsActive ? ()=>setGpsActive(false) : askForPin} style={{ marginTop: 4 }}>{gpsActive ? "GPS Stop" : "📡 GPS"}</button>
             </label>
             <label>Zapfwelle (U/min)<input type="number" value={pto} onChange={(e)=>setPto(parseFloat(e.target.value)||0)} /></label>
             <label>Kratzboden (%)<input type="number" value={scraperSpeed} onChange={(e)=>setScraperSpeed(parseFloat(e.target.value)||0)} /></label>
